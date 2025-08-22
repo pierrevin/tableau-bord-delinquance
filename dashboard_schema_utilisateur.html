@@ -2416,10 +2416,11 @@
             // Obtenir les années de la période sélectionnée
             const years = getYearsForPeriod();
             
-            // Données de Saint-Paul
+            // Données de la commune de référence
+            const communeRefCode = currentFilters.communeRef;
             const saintPaulData = years.map(year => {
                 const data = dashboardData.commune_annee_data.filter(item => 
-                    item.code_insee === '31507' && item.annee === year.toString()
+                    item.code_insee === communeRefCode && item.annee === year.toString()
                 );
                 return data.length > 0 ? data[0].total_infractions : 0;
             });
@@ -2452,8 +2453,9 @@
             const useDualAxis = scaleRatio > 10;
             
             // Créer les datasets
+            const communeRefName = communesNames[communeRefCode] || `Commune ${communeRefCode}`;
             const datasets = [{
-                label: 'Saint-Paul-sur-Save',
+                label: communeRefName,
                 data: saintPaulData,
                 borderColor: '#667eea',
                 backgroundColor: 'rgba(102, 126, 234, 0.1)',
@@ -2768,8 +2770,10 @@
             // Réinitialiser les données
             distributionChartsData = { saintPaul: {}, similar: {}, comparison: {} };
             
-            // 1. Graphique Saint-Paul
-            createSingleDistributionChart('distributionChartSaintPaul', '31507', 'Saint-Paul-sur-Save', infractionColorMap);
+            // 1. Graphique Commune de référence
+            const communeRefCode = currentFilters.communeRef;
+            const communeRefName = communesNames[communeRefCode] || `Commune ${communeRefCode}`;
+            createSingleDistributionChart('distributionChartSaintPaul', communeRefCode, communeRefName, infractionColorMap);
             
             // 2. Graphique Communes similaires
             createSimilarCommunesDistributionChart('distributionChartSimilar', infractionColorMap);

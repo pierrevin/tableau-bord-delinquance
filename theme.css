@@ -279,6 +279,67 @@ body:not(.dashboard-page) .header-controls {
   opacity: 0.8;
 }
 
+/* ===== EN-TÊTE DES FILTRES ===== */
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: var(--spacing-sm);
+}
+
+.filters-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+}
+
+.filters-title svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+#toggle-filters-btn {
+  border: 1px solid var(--border-medium);
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#toggle-filters-btn:hover {
+  background: var(--text-secondary);
+  color: var(--text-inverse);
+  transform: scale(1.05);
+}
+
+#toggle-filters-icon {
+  transition: transform var(--transition-fast);
+}
+
+.filters-collapsed #toggle-filters-icon {
+  transform: rotate(-90deg);
+}
+
+.filters-collapsed #filters-content {
+  display: none;
+}
+
+.filters-collapsed .filters-header {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
 /* ===== MENU DÉROULANT COMMUNE ===== */
 .commune-selector-dropdown {
   position: relative;
@@ -1326,52 +1387,198 @@ body:not(.dashboard-page) .header-controls {
     padding: var(--spacing-xs);
   }
   
+  /* Filtres ultra-compacts */
   .header-controls {
-    padding: var(--spacing-xs);
+    padding: var(--spacing-xs) !important;
+    margin-bottom: var(--spacing-xs) !important;
+  }
+  
+  .filters-header {
+    padding: var(--spacing-xs) !important;
+    margin-bottom: var(--spacing-xs) !important;
+  }
+  
+  .filters-title {
+    font-size: var(--font-size-xs) !important;
+  }
+  
+  #toggle-filters-btn {
+    padding: 2px 6px !important;
+    font-size: var(--font-size-xs) !important;
   }
   
   .controls-grid {
-    gap: var(--spacing-xs);
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-xs) !important;
+  }
+  
+  .form-group {
+    margin-bottom: var(--spacing-xs) !important;
+  }
+  
+  .form-label {
+    font-size: var(--font-size-xs) !important;
+    margin-bottom: var(--spacing-xs) !important;
   }
   
   .commune-badge-selector {
-    padding: var(--spacing-xs);
+    padding: var(--spacing-xs) !important;
+    min-width: auto !important;
+    max-width: 100% !important;
   }
   
   .commune-name {
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-xs) !important;
+    line-height: 1.2 !important;
   }
   
   .commune-details {
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-xs) !important;
+    line-height: 1.2 !important;
   }
   
-  /* Carte encore plus compacte */
+  /* Carte ultra-compacte */
   #map {
-    height: 250px !important;
+    height: 200px !important;
+    margin-top: var(--spacing-xs) !important;
+  }
+  
+  /* Cacher complètement la légende sur mobile */
+  .leaflet-control-layers,
+  .leaflet-control-layers-expanded,
+  .leaflet-control-legend,
+  .map-legend,
+  [class*="legend"] {
+    display: none !important;
   }
   
   .commune-label-text {
     font-size: var(--font-size-xs) !important;
-    padding: 1px 3px !important;
-    max-width: 100px !important;
+    padding: 1px 2px !important;
+    max-width: 80px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
   
-  /* Graphiques plus compacts */
+  /* Graphiques ultra-compacts */
   .distribution-chart-item .chart-wrapper {
-    height: 150px;
+    height: 120px !important;
   }
   
   .kpi-card {
-    padding: var(--spacing-xs);
+    padding: var(--spacing-xs) !important;
   }
   
   .kpi-value {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm) !important;
   }
   
   .kpi-label {
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-xs) !important;
+  }
+  
+  /* Réduction des espacements généraux */
+  .card {
+    margin-bottom: var(--spacing-sm) !important;
+    padding: var(--spacing-xs) !important;
+  }
+  
+  .card-header {
+    padding: var(--spacing-xs) !important;
+  }
+  
+  .card-title {
+    font-size: var(--font-size-sm) !important;
+  }
+}
+
+/* ===== ÉCRANS TRÈS PETITS (SMARTPHONES COMPACTS) ===== */
+@media (max-width: 320px) {
+  .dashboard-container {
+    padding: 4px !important;
+  }
+  
+  /* Filtres encore plus compacts */
+  .header-controls {
+    padding: 4px !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .controls-grid {
+    gap: 4px !important;
+  }
+  
+  .form-group {
+    margin-bottom: 4px !important;
+  }
+  
+  .form-label {
+    font-size: 10px !important;
+    margin-bottom: 2px !important;
+  }
+  
+  .commune-badge-selector {
+    padding: 4px 6px !important;
+  }
+  
+  .commune-name {
+    font-size: 10px !important;
+  }
+  
+  .commune-details {
+    font-size: 9px !important;
+  }
+  
+  /* Carte très compacte */
+  #map {
+    height: 150px !important;
+  }
+  
+  /* Cacher complètement la légende sur très petits écrans */
+  .leaflet-control-layers,
+  .leaflet-control-layers-expanded,
+  .leaflet-control-legend,
+  .map-legend,
+  [class*="legend"] {
+    display: none !important;
+  }
+  
+  .commune-label-text {
+    font-size: 9px !important;
+    padding: 1px !important;
+    max-width: 60px !important;
+  }
+  
+  /* Graphiques très compacts */
+  .distribution-chart-item .chart-wrapper {
+    height: 100px !important;
+  }
+  
+  .kpi-card {
+    padding: 4px !important;
+  }
+  
+  .kpi-value {
+    font-size: var(--font-size-xs) !important;
+  }
+  
+  .kpi-label {
+    font-size: 9px !important;
+  }
+  
+  /* Réduction maximale des espacements */
+  .card {
+    margin-bottom: 4px !important;
+    padding: 4px !important;
+  }
+  
+  .card-header {
+    padding: 4px !important;
+  }
+  
+  .card-title {
+    font-size: var(--font-size-xs) !important;
   }
 }
 

@@ -64,8 +64,21 @@
         </div>
 
         <!-- 1. EN-TÊTE / CONTRÔLES -->
-        <div class="card header-controls sticky-filters">
-            <div class="controls-grid">
+        <div class="card header-controls sticky-filters" id="filters-container">
+            <div class="filters-header">
+                <div class="filters-title">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
+                    Filtres
+                </div>
+                <button class="btn btn-sm btn-outline-secondary" id="toggle-filters-btn" title="Masquer/Afficher les filtres">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" id="toggle-filters-icon">
+                        <path d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="controls-grid" id="filters-content">
                 <!-- Commune de référence avec menu déroulant -->
                 <div class="form-group">
                     <label class="form-label">
@@ -4132,6 +4145,30 @@
             link.click();
         }
         
+        // Fonction pour toggle les filtres
+        function toggleFilters() {
+            const filtersContainer = document.getElementById('filters-container');
+            const toggleIcon = document.getElementById('toggle-filters-icon');
+            
+            if (filtersContainer) {
+                const isCollapsed = filtersContainer.classList.contains('filters-collapsed');
+                
+                if (isCollapsed) {
+                    // Afficher les filtres
+                    filtersContainer.classList.remove('filters-collapsed');
+                    if (toggleIcon) {
+                        toggleIcon.style.transform = 'rotate(0deg)';
+                    }
+                } else {
+                    // Masquer les filtres
+                    filtersContainer.classList.add('filters-collapsed');
+                    if (toggleIcon) {
+                        toggleIcon.style.transform = 'rotate(-90deg)';
+                    }
+                }
+            }
+        }
+        
         // Fonction pour ouvrir la modal des communes similaires
         function openSimilarCommunesModal() {
             const modal = new bootstrap.Modal(document.getElementById('similarCommunesModal'));
@@ -4199,6 +4236,22 @@
             const kpisInfoBtn = document.getElementById('kpis-info');
             if (kpisInfoBtn) {
                 kpisInfoBtn.addEventListener('click', openSimilarCommunesModal);
+            }
+            
+            // Event listener pour le bouton de toggle des filtres
+            const toggleFiltersBtn = document.getElementById('toggle-filters-btn');
+            if (toggleFiltersBtn) {
+                toggleFiltersBtn.addEventListener('click', toggleFilters);
+            }
+            
+            // Auto-collapse des filtres sur mobile après 3 secondes
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    const filtersContainer = document.getElementById('filters-container');
+                    if (filtersContainer && !filtersContainer.classList.contains('filters-collapsed')) {
+                        toggleFilters();
+                    }
+                }, 3000);
             }
         }
         

@@ -717,12 +717,10 @@
         function populateCommuneOptions() {
             const optionsContainer = document.getElementById('communeReferenceOptions');
             if (!optionsContainer) {
-                console.error('Options container non trouvé');
                 return;
             }
             
             const communesWithData = getCommunesWithInfractions();
-            console.log('Communes avec données:', communesWithData.length);
             
             const currentCommune = currentFilters.communeRef || '31507';
             
@@ -741,7 +739,6 @@
                 option.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Clic sur option de référence:', code, name);
                     selectCommune(code);
                 });
                 
@@ -771,7 +768,6 @@
         
         // Sélectionner une commune
         function selectCommune(communeCode) {
-            console.log('Sélection de la commune:', communeCode);
             currentFilters.communeRef = communeCode;
             closeCommuneDropdown();
             updateCommuneBadge();
@@ -867,12 +863,10 @@
             
             // Toutes les communes (avec données filtrées)
             const communesWithData = getCommunesWithInfractions();
-            console.log('Communes pour comparaison:', communesWithData.length);
             
             communesWithData.forEach(([code, name, population, infractions]) => {
                 // Ne pas inclure la commune de référence
                 if (code === currentFilters.communeRef) {
-                    console.log('Exclusion de la commune de référence:', code, name);
                     return;
                 }
                 
@@ -888,7 +882,6 @@
                 option.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Clic sur option de comparaison:', code, name);
                     selectComparisonCommune(code);
                 });
                 
@@ -918,7 +911,6 @@
         
         // Sélectionner une commune de comparaison
         function selectComparisonCommune(communeCode) {
-            console.log('Sélection de la commune de comparaison:', communeCode);
             currentFilters.communeComp = communeCode;
             closeComparisonDropdown();
             updateComparisonBadge();
@@ -1081,12 +1073,7 @@
         
         // Obtenir les communes qui ont au moins 1 infraction (avec filtres actifs)
         function getCommunesWithInfractions() {
-            console.log('getCommunesWithInfractions appelée');
-            console.log('dashboardData disponible:', !!dashboardData);
-            console.log('communesNames disponible:', !!communesNames);
-            
             if (!dashboardData || !communesNames) {
-                console.error('Données non disponibles');
                 return [];
             }
             
@@ -3853,8 +3840,8 @@
             });
         }
         
-        // Sélectionner une commune
-        function selectCommune(code) {
+        // Sélectionner une commune depuis la carte
+        function selectCommuneFromMap(code) {
             currentFilters.communeRef = code;
             document.getElementById('communeReference').value = code;
             updateDashboard();

@@ -4243,16 +4243,6 @@
             if (toggleFiltersBtn) {
                 toggleFiltersBtn.addEventListener('click', toggleFilters);
             }
-            
-            // Auto-collapse des filtres sur mobile après 3 secondes
-            if (window.innerWidth <= 768) {
-                setTimeout(() => {
-                    const filtersContainer = document.getElementById('filters-container');
-                    if (filtersContainer && !filtersContainer.classList.contains('filters-collapsed')) {
-                        toggleFilters();
-                    }
-                }, 3000);
-            }
         }
         
         // Initialisation au chargement

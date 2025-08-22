@@ -322,6 +322,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>📋 Données Brutes Filtrables</h3>
+                        <div class="data-source mb-3">
+                            <small class="text-muted">
+                                📊 Source : <a href="https://www.data.gouv.fr/datasets/bases-statistiques-communale-departementale-et-regionale-de-la-delinquance-enregistree-par-la-police-et-la-gendarmerie-nationales/discussions" target="_blank" rel="noopener">Ministère de l'Intérieur - Bases statistiques de la délinquance</a>
+                            </small>
+                        </div>
                         <div class="row mt-3">
                             <div class="col-md-3">
                                 <label for="raw-commune-filter">Commune:</label>
@@ -711,9 +716,14 @@
         // Peupler les options du menu
         function populateCommuneOptions() {
             const optionsContainer = document.getElementById('communeReferenceOptions');
-            if (!optionsContainer) return;
+            if (!optionsContainer) {
+                console.error('Options container non trouvé');
+                return;
+            }
             
             const communesWithData = getCommunesWithInfractions();
+            console.log('Communes avec données:', communesWithData.length);
+            
             const currentCommune = currentFilters.communeRef || '31507';
             
             optionsContainer.innerHTML = '';
@@ -728,7 +738,10 @@
                     <div class="dropdown-option-details">${population.toLocaleString()} hab. • ${infractions} infractions</div>
                 `;
                 
-                option.addEventListener('click', () => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Clic sur option:', code, name);
                     selectCommune(code);
                 });
                 
@@ -758,6 +771,7 @@
         
         // Sélectionner une commune
         function selectCommune(communeCode) {
+            console.log('Sélection de la commune:', communeCode);
             currentFilters.communeRef = communeCode;
             closeCommuneDropdown();
             updateCommuneBadge();
@@ -1058,6 +1072,15 @@
         
         // Obtenir les communes qui ont au moins 1 infraction (avec filtres actifs)
         function getCommunesWithInfractions() {
+            console.log('getCommunesWithInfractions appelée');
+            console.log('dashboardData disponible:', !!dashboardData);
+            console.log('communesNames disponible:', !!communesNames);
+            
+            if (!dashboardData || !communesNames) {
+                console.error('Données non disponibles');
+                return [];
+            }
+            
             const communesWithData = new Map();
             
             // Filtrer les données selon les filtres actifs

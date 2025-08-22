@@ -1215,24 +1215,163 @@ body:not(.dashboard-page) .header-controls {
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
+  /* Container principal */
+  .dashboard-container {
+    padding: var(--spacing-sm);
+  }
+  
+  /* Filtres - Réduction de la taille */
+  .header-controls {
+    padding: var(--spacing-sm);
+  }
+  
+  .controls-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+  
+  .commune-badge-selector {
+    min-width: auto;
+    padding: var(--spacing-xs);
+  }
+  
+  .commune-name {
+    font-size: var(--font-size-xs);
+  }
+  
+  .commune-details {
+    font-size: var(--font-size-xs);
+  }
+  
+  /* Graphiques */
   .distribution-charts-grid {
     grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
   }
   
   .distribution-chart-item .chart-wrapper {
-    height: 200px;
+    height: 180px;
   }
   
   .shared-legend {
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-xs);
+    padding: var(--spacing-sm);
   }
   
   .legend-item-shared {
     width: 100%;
-    max-width: 300px;
+    max-width: 250px;
     justify-content: center;
+    font-size: var(--font-size-xs);
+  }
+  
+  /* Carte - Correction de la légende */
+  #map {
+    height: 300px !important;
+  }
+  
+  .commune-label-text {
+    font-size: var(--font-size-xs) !important;
+    padding: 2px 4px !important;
+    max-width: 120px !important;
+  }
+  
+  /* KPIs */
+  .kpis-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+  
+  .kpi-card {
+    padding: var(--spacing-sm);
+  }
+  
+  .kpi-value {
+    font-size: var(--font-size-lg);
+  }
+  
+  .kpi-label {
+    font-size: var(--font-size-xs);
+  }
+  
+  /* Boutons d'information */
+  .chart-title .btn-outline-info {
+    min-width: 28px !important;
+    height: 28px !important;
+    padding: 4px 8px !important;
+  }
+  
+  .chart-title .btn-outline-info svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  
+  .card-title .btn-outline-secondary {
+    min-width: 20px !important;
+    height: 20px !important;
+    padding: 1px 4px !important;
+  }
+  
+  .card-title .btn-outline-secondary svg {
+    width: 10px !important;
+    height: 10px !important;
+  }
+}
+
+/* ===== TRÈS PETITS ÉCRANS (SMARTPHONES) ===== */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: var(--spacing-xs);
+  }
+  
+  .header-controls {
+    padding: var(--spacing-xs);
+  }
+  
+  .controls-grid {
+    gap: var(--spacing-xs);
+  }
+  
+  .commune-badge-selector {
+    padding: var(--spacing-xs);
+  }
+  
+  .commune-name {
+    font-size: var(--font-size-xs);
+  }
+  
+  .commune-details {
+    font-size: var(--font-size-xs);
+  }
+  
+  /* Carte encore plus compacte */
+  #map {
+    height: 250px !important;
+  }
+  
+  .commune-label-text {
+    font-size: var(--font-size-xs) !important;
+    padding: 1px 3px !important;
+    max-width: 100px !important;
+  }
+  
+  /* Graphiques plus compacts */
+  .distribution-chart-item .chart-wrapper {
+    height: 150px;
+  }
+  
+  .kpi-card {
+    padding: var(--spacing-xs);
+  }
+  
+  .kpi-value {
+    font-size: var(--font-size-base);
+  }
+  
+  .kpi-label {
+    font-size: var(--font-size-xs);
   }
 }
 

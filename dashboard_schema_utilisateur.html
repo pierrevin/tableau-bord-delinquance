@@ -768,9 +768,7 @@
         
         // Sélectionner une commune
         function selectCommune(communeCode) {
-            console.log('🔍 DEBUG: Sélection commune de référence:', communeCode);
             currentFilters.communeRef = communeCode;
-            console.log('🔍 DEBUG: currentFilters.communeRef après mise à jour:', currentFilters.communeRef);
             closeCommuneDropdown();
             updateCommuneBadge();
             updateDashboard();
@@ -1157,7 +1155,6 @@
         
         // Mise à jour du tableau de bord
         function updateDashboard() {
-            console.log('🔍 DEBUG: updateDashboard appelée avec communeRef:', currentFilters.communeRef);
             updateKPIs();
             updateCommuneBadge();
             updateComparisonBadge();
@@ -1507,7 +1504,6 @@
         
         // Mise à jour des KPIs
         function updateKPIs() {
-            console.log('🔍 DEBUG: updateKPIs appelée avec communeRef:', currentFilters.communeRef);
             // Obtenir les données de la commune de référence avec les filtres appliqués
             const saintPaulTotals = getCommuneTotals(currentFilters.communeRef);
             const comparisonData = getComparisonData();
@@ -1564,18 +1560,14 @@
                 let similarAvgEvolution = 0;
                 
                 const similarAverage = getSimilarCommunesAverage();
-                console.log('DEBUG similarAverage:', similarAverage);
                 if (similarAverage && similarAverage.total_infractions !== undefined) {
                     // Utiliser les moyennes calculées
                     similarAvgInfractions = similarAverage.total_infractions;
                     similarAvgTaux = (similarAvgInfractions / similarAverage.population * 1000).toFixed(2);
                     
-                    console.log('DEBUG après calcul - similarAvgInfractions:', similarAvgInfractions, 'similarAvgTaux:', similarAvgTaux);
-                    
                     // Calculer l'évolution moyenne des communes similaires
                     similarAvgEvolution = calculateSimilarCommunesEvolution();
                 } else {
-                    console.log('ERREUR: similarAverage est null ou total_infractions undefined');
                     similarAvgInfractions = 0;
                     similarAvgTaux = 0;
                 }
@@ -1594,78 +1586,11 @@
                     }
                 }
                 
-                // Debug: Afficher les valeurs calculées
-                console.log('=== DEBUG KPIs ===');
-                console.log('Saint-Paul - Infractions:', totalInfractions, 'Taux:', tauxPourMille, 'Évolution:', evolution);
-                console.log('Moyenne similaires - Infractions:', similarAvgInfractions, 'Taux:', similarAvgTaux, 'Évolution:', similarAvgEvolution);
-                console.log('Commune comparée - Infractions:', comparisonAvgInfractions, 'Taux:', comparisonAvgTaux, 'Évolution:', comparisonAvgEvolution);
-                console.log('Population Saint-Paul:', population);
-                console.log('Similar Average Object:', similarAverage);
-                console.log('Similar Codes:', getSimilarCommunesCodes());
+
                 
-                // Debug détaillé pour Aigrefeuille
-                if (currentFilters.communeComp && currentFilters.communeComp !== 'none') {
-                    const comparisonTotals = getCommuneTotals(currentFilters.communeComp);
-                    console.log('=== DEBUG AIGREFEUILLE ===');
-                    console.log('Code commune comparée:', currentFilters.communeComp);
-                    console.log('Années sélectionnées:', currentFilters.selectedYears);
-                    console.log('Type d\'infraction:', currentFilters.infraction);
-                    // Récupérer les données brutes pour le debug
-                    const comparisonRawData = dashboardData.commune_annee_data.filter(item => 
-                        item.code_insee === currentFilters.communeComp && 
-                        currentFilters.selectedYears.includes(parseInt(item.annee))
-                    );
-                    console.log('Données brutes Aigrefeuille:', comparisonRawData);
-                    console.log('Totaux calculés:', comparisonTotals);
-                    console.log('Infractions par année:', comparisonRawData.map(d => ({annee: d.annee, infractions: d.total_infractions, population: d.population})));
-                    console.log('Total infractions calculé:', comparisonAvgInfractions);
-                    console.log('Population utilisée:', comparisonTotals ? comparisonTotals.population : 'N/A');
-                    console.log('Taux calculé:', comparisonAvgTaux);
-                    console.log('Taux attendu (21/1326*1000):', (21/1326*1000).toFixed(2));
-                    
-                    // Debug détaillé des données brutes
-                    const rawData = dashboardData.commune_annee_data.filter(item => 
-                        item.code_insee === currentFilters.communeComp
-                    );
-                    console.log('Données brutes complètes:', rawData);
-                    
-                    // Debug des données détaillées si type spécifique
-                    if (currentFilters.infraction && currentFilters.infraction !== 'all') {
-                        const detailedData = dashboardData.indicateur_data.filter(item => 
-                            item.code_insee === currentFilters.communeComp
-                        );
-                        console.log('Données détaillées:', detailedData);
-                    }
-                }
+
                 
-                // Debug détaillé pour les communes similaires
-                console.log('=== DEBUG COMMUNES SIMILAIRES ===');
-                const similarCodes = getSimilarCommunesCodes();
-                console.log('Codes des communes similaires:', similarCodes);
-                console.log('Nombre de communes similaires:', similarCodes.length);
-                console.log('Moyenne des communes similaires:', similarAverage);
-                console.log('Infractions moyennes calculées:', similarAvgInfractions);
-                console.log('Taux moyens calculés:', similarAvgTaux);
-                console.log('Évolution moyenne calculée:', similarAvgEvolution);
-                
-                // Debug détaillé de chaque commune similaire
-                console.log('\\nDétail par commune similaire:');
-                similarCodes.forEach(code => {
-                    const communeTotals = getCommuneTotals(code);
-                    if (communeTotals) {
-                        console.log(`${code} - ${communeTotals.commune_name}: ${communeTotals.total_infractions} infractions, ${communeTotals.population} hab. moy.`);
-                    }
-                });
-                
-                // Debug de la fonction getSimilarCommunesAverage
-                console.log('\\n=== DEBUG getSimilarCommunesAverage ===');
-                const testSimilarAverage = getSimilarCommunesAverage();
-                console.log('Résultat getSimilarCommunesAverage:', testSimilarAverage);
-                if (testSimilarAverage) {
-                    console.log('total_infractions:', testSimilarAverage.total_infractions);
-                    console.log('population:', testSimilarAverage.population);
-                    console.log('commune_count:', testSimilarAverage.commune_count);
-                }
+
                 
                 // console.log('Données similaires:', similarData); // Variable supprimée
                 // console.log('Données comparaison:', comparisonData); // Variable supprimée
@@ -1675,16 +1600,7 @@
                 document.getElementById('kpi-taux-pour-mille').textContent = tauxPourMille + '‰';
                 document.getElementById('kpi-evolution-periode').textContent = evolution + '%';
                 
-                // Debug des valeurs avant affichage
-                console.log('=== DEBUG AVANT AFFICHAGE ===');
-                console.log('Infractions - Saint-Paul:', totalInfractions, 'Similaires:', similarAvgInfractions, 'Comparée:', comparisonAvgInfractions);
-                console.log('Taux - Saint-Paul:', tauxPourMille, 'Similaires:', similarAvgTaux, 'Comparée:', comparisonAvgTaux);
-                console.log('Évolution - Saint-Paul:', evolution, 'Similaires:', similarAvgEvolution, 'Comparée:', comparisonAvgEvolution);
-                console.log('Vérification similarValue > 0:', {
-                    infractions: similarAvgInfractions > 0,
-                    taux: parseFloat(similarAvgTaux) > 0,
-                    evolution: parseFloat(similarAvgEvolution) > 0
-                });
+
                 
                 // Afficher les comparaisons
                 updateComparisonDisplay('kpi-infractions-comparison', totalInfractions, similarAvgInfractions, comparisonAvgInfractions, 'infractions');

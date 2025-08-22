@@ -4,141 +4,162 @@
 
 Ce projet permet d'analyser et de comparer les données de délinquance dans la Haute-Garonne (31) avec un focus particulier sur Saint-Paul-sur-Save (31507). Il fournit un tableau de bord interactif pour visualiser les tendances et faire des comparaisons entre communes.
 
-## 📁 Fichiers Principaux
+## 🌐 Accès en Ligne
 
-### 📊 Données Extraites
-- **`haute_garonne_complete.csv`** (6.8MB) - Données complètes de toutes les communes de la Haute-Garonne
+**Votre tableau de bord est maintenant en ligne !**
+```
+https://pierrevin.github.io/tableau-bord-delinquance/
+```
+
+## 📁 Structure du Projet
+
+### 🎨 Interface Utilisateur
+- **`dashboard_schema_utilisateur.html`** - Tableau de bord principal interactif
+- **`theme.css`** - Styles CSS modernes
+- **`theme-init.js`** - Interactions et initialisation
+- **`config.js`** - Configuration IA (désactivée par défaut)
+
+### 📊 Données
 - **`dashboard_haute_garonne.json`** (2.2MB) - Données structurées pour le tableau de bord
-- **`haute_garonne_communes_summary.csv`** (123KB) - Résumé par commune et par année
-
-### 🖥️ Tableau de Bord
-- **`dashboard_haute_garonne.html`** - Tableau de bord interactif (ouvrir dans un navigateur)
-
-### 📋 Résumés
-- **`resume_final_haute_garonne.json`** - Résumé complet de toutes les données
-- **`resume_final_saint_paul_save.json`** - Résumé spécifique à Saint-Paul-sur-Save
+- **`communes_haute_garonne_mapping.json`** - Mapping des codes INSEE vers noms de communes
+- **`georef-france-commune.geojson`** (3.7MB) - Données géographiques des communes
 - **`metadata_dashboard.json`** - Métadonnées du projet
 
-### 🔧 Scripts
-- **`extract_haute_garonne_complete.py`** - Script d'extraction de toutes les données
-- **`extract_saint_paul_parquet.py`** - Script d'extraction spécifique à Saint-Paul
-- **`resume_final_haute_garonne.py`** - Script de génération du résumé final
+### 🤖 Intelligence Artificielle (Optionnel)
+- **`api_analyze.py`** - API d'analyse IA avec OpenAI
+- **`requirements.txt`** - Dépendances Python
+
+### 📚 Documentation
+- **`README.md`** - Ce fichier
+- **`README_IA.md`** - Guide de l'IA
+- **`ACTIVATION_IA.md`** - Comment activer l'IA
+- **`METHODOLOGIE_CALCULS.md`** - Méthodologie des calculs
+- **`GUIDE_TABLEAU_BORD_AVANCE.md`** - Guide d'utilisation avancé
+- **`DEPLOIEMENT_GITHUB.md`** - Guide de déploiement
+- **`TEST_LOCAL.md`** - Guide de test local
+- **`CLEANUP.md`** - Documentation du nettoyage
 
 ## 🚀 Utilisation
 
-### 1. Ouvrir le Tableau de Bord
+### 1. Version En Ligne (Recommandée)
+Ouvrez directement : https://pierrevin.github.io/tableau-bord-delinquance/
+
+### 2. Version Locale
 ```bash
-# Ouvrir le fichier HTML dans votre navigateur
-open dashboard_haute_garonne.html
+# Lancer le serveur local
+python3 serve_local.py
+
+# Puis ouvrir : http://localhost:8000/dashboard_schema_utilisateur.html
 ```
 
-### 2. Fonctionnalités du Tableau de Bord
+## 🎯 Fonctionnalités
 
-#### 📈 Graphiques Disponibles
-- **Évolution des infractions par année** - Comparaison Haute-Garonne vs Saint-Paul
-- **Top 10 des communes** - Classement par nombre d'infractions (2024)
-- **Comparaison interactive** - Filtrage par année et type d'infraction
-- **Focus Saint-Paul-sur-Save** - Évolution et classement spécifique
+### 📈 Tableau de Bord Interactif
+- **KPIs synthétiques** - Indicateurs clés de performance
+- **Graphiques de répartition** - Par type d'infraction
+- **Comparaisons visuelles** - Entre communes
+- **Analyse temporelle** - Évolution dans le temps
+- **Carte interactive** - Visualisation géographique
 
-#### 🎛️ Contrôles Interactifs
-- **Sélecteur d'année** : 2016-2024
-- **Sélecteur d'indicateur** : Toutes les infractions, Destructions, Escroqueries, etc.
+### 🎛️ Contrôles Interactifs
+- **Commune de référence** - Saint-Paul-sur-Save par défaut
+- **Commune de comparaison** - Sélection libre
+- **Période** - 2016-2024, filtrable par année
+- **Type d'infraction** - 10 catégories disponibles
 
-#### 📊 Statistiques en Temps Réel
-- Nombre total de communes
-- Total des infractions
-- Période couverte
-- Rang de Saint-Paul-sur-Save
+### 📊 Données Brutes
+- **Tableau filtrable** - Toutes les données
+- **Export CSV/JSON** - Téléchargement des données
+- **Recherche** - Filtrage avancé
 
-## 📊 Données Disponibles
+### 🤖 Intelligence Artificielle (Masquée)
+- **Analyse contextuelle** - Insights intelligents
+- **Recommandations** - Basées sur les données
+- **Comparaisons avancées** - IA-powered
 
-### 🏘️ Couverture
+## 📊 Couverture des Données
+
+### 🏘️ Géographie
 - **586 communes** de la Haute-Garonne
 - **Période** : 2016-2024
-- **47,665 enregistrements** diffusés
-- **15 types d'indicateurs** différents
+- **Focus** : Saint-Paul-sur-Save (31507)
 
-### 🎯 Focus Saint-Paul-sur-Save (31507)
-- Données complètes par année
-- Classement départemental
-- Évolution des infractions
-- Comparaison avec les autres communes
+### 📈 Types d'Infractions
+1. Destructions et dégradations
+2. Escroqueries
+3. Vols avec violence
+4. Trafic de stupéfiants
+5. Violences physiques
+6. Vols sans violence
+7. Atteintes aux biens
+8. Atteintes aux personnes
+9. Autres infractions
 
-### 📈 Indicateurs Principaux
-1. Vols avec armes
-2. Usage de stupéfiants (AFD)
-3. Trafic de stupéfiants
-4. Vols violents sans arme
-5. Usage de stupéfiants
-
-## 🔍 Analyses Possibles
+## 🔍 Analyses Disponibles
 
 ### Comparaisons
-- **Saint-Paul vs Haute-Garonne** : Évolution globale
-- **Saint-Paul vs autres communes** : Classement et positionnement
-- **Évolution temporelle** : Tendances par année
-- **Types d'infractions** : Répartition par catégorie
+- **Saint-Paul vs Haute-Garonne** - Évolution globale
+- **Saint-Paul vs communes similaires** - Population comparable
+- **Saint-Paul vs commune spécifique** - Comparaison libre
+- **Évolution temporelle** - Tendances par année
 
 ### Insights
-- **Tendances** : Augmentation/diminution des infractions
-- **Positionnement** : Rang de Saint-Paul dans le département
-- **Spécificités** : Types d'infractions prédominants
-- **Comparaisons** : Performance relative aux autres communes
+- **Tendances** - Augmentation/diminution des infractions
+- **Positionnement** - Rang de Saint-Paul dans le département
+- **Spécificités** - Types d'infractions prédominants
+- **Comparaisons** - Performance relative
 
-## 🛠️ Réexécution des Scripts
+## 🛠️ Développement
 
-### Extraire toutes les données
+### Test Local
 ```bash
-python3 extract_haute_garonne_complete.py
+# Vérifier que tout fonctionne
+./test_deployment.sh
+
+# Lancer le serveur local
+python3 serve_local.py
 ```
 
-### Générer le résumé final
-```bash
-python3 resume_final_haute_garonne.py
-```
-
-### Extraire Saint-Paul uniquement
-```bash
-python3 extract_saint_paul_parquet.py
-```
+### Activation de l'IA
+Voir `ACTIVATION_IA.md` pour activer l'analyse IA.
 
 ## 📋 Prérequis
 
+### Pour l'utilisation
+- Navigateur web moderne (Chrome, Firefox, Safari, Edge)
+
+### Pour le développement
 - Python 3.x
-- pandas
-- pyarrow
-- Navigateur web moderne (pour le tableau de bord)
-
-## 📊 Statistiques Clés
-
-### Haute-Garonne (2016-2024)
-- **Total infractions** : ~600,000
-- **Moyenne annuelle** : ~75,000 infractions
-- **Pic en 2022** : 75,453 infractions
-- **Baisse en 2020** : 63,559 infractions (COVID-19)
-
-### Saint-Paul-sur-Save
-- **Code INSEE** : 31507
-- **Données disponibles** : 2016-2024
-- **Position** : Analyse détaillée dans le tableau de bord
+- Dépendances : `pip install -r requirements.txt`
 
 ## 🎯 Utilisation Recommandée
 
-1. **Ouvrir le tableau de bord** dans un navigateur
-2. **Explorer les graphiques** pour comprendre les tendances
+1. **Ouvrir le tableau de bord** en ligne ou localement
+2. **Explorer les KPIs** pour comprendre la situation globale
 3. **Utiliser les filtres** pour des analyses spécifiques
-4. **Comparer Saint-Paul** avec d'autres communes
-5. **Analyser l'évolution** temporelle des infractions
+4. **Comparer les communes** avec les graphiques
+5. **Analyser l'évolution** temporelle
+6. **Consulter les données brutes** pour plus de détails
+
+## 🚨 Dépannage
+
+### Erreur "Failed to fetch"
+- **Cause** : Fichier ouvert en `file://` au lieu de `http://`
+- **Solution** : Utiliser le serveur local ou la version en ligne
+
+### Données ne se chargent pas
+- Vérifier que tous les fichiers JSON sont présents
+- Vérifier la connexion internet (version en ligne)
 
 ## 📞 Support
 
-Pour toute question ou problème :
-- Vérifiez que tous les fichiers sont présents
-- Assurez-vous que le navigateur supporte JavaScript
-- Consultez les fichiers JSON pour les données brutes
+- **Documentation** : Voir les fichiers README dans le projet
+- **Test local** : Utiliser `./test_deployment.sh`
+- **Déploiement** : Voir `DEPLOIEMENT_GITHUB.md`
 
 ---
 
-*Données source : Ministère de l'Intérieur - Statistiques de délinquance*
-*Période : 2016-2024*
-*Géographie : Haute-Garonne (31)*
+*Données source : Ministère de l'Intérieur - Statistiques de délinquance*  
+*Période : 2016-2024*  
+*Géographie : Haute-Garonne (31)*  
+*Déployé sur GitHub Pages*

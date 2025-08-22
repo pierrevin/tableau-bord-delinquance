@@ -2214,11 +2214,12 @@
                 .filter(type => type && type !== 'total_infractions')
                 .sort(); // Trier alphabétiquement pour avoir un ordre cohérent
             
-            // Calculer les infractions par type pour Saint-Paul
+            // Calculer les infractions par type pour la commune de référence
+            const communeRefCode = currentFilters.communeRef;
             const saintPaulData = infractionTypes.map(type => {
                 return years.reduce((sum, year) => {
                     const data = dashboardData.indicateur_data.filter(item => 
-                        item.code_insee === '31507' && 
+                        item.code_insee === communeRefCode && 
                         item.indicateur === type && 
                         item.annee === year.toString()
                     );

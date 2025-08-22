@@ -1,0 +1,18 @@
+{
+  "titre": "Tableau de Bord - Délinquance Haute-Garonne",
+  "description": "Analyse comparative des données de délinquance dans la Haute-Garonne (2016-2024)",
+  "departement": "Haute-Garonne",
+  "periode": "2016 - 2024",
+  "derniere_mise_a_jour": "2025-08-21 11:24:53",
+  "fichiers_disponibles": [
+    "haute_garonne_complete.csv",
+    "dashboard_haute_garonne.json",
+    "haute_garonne_communes_summary.csv",
+    "dashboard_haute_garonne.html"
+  ],
+  "statistiques_cles": {
+    "total_communes": 586,
+    "total_infractions": 644237,
+    "commune_focus": "Saint-Paul-sur-Save (31507)"
+  }
+}

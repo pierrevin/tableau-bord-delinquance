@@ -1,0 +1,57 @@
+# Environnement virtuel
+.venv/
+venv/
+env/
+
+# Fichiers de données volumineux
+*.parquet
+*.csv.gz
+*.json.gz
+delinquance.json
+
+# Fichiers de backup
+*_backup_*
+*_save_*
+
+# Fichiers de développement
+dashboard_avance_*.html
+dashboard_*_local.html
+dashboard_haute_garonne.html
+
+# Fichiers de traitement
+extract_*.py
+create_*.py
+fix_*.py
+resume_*.py
+start_*.py
+
+# Fichiers de données intermédiaires
+saint_paul_*.json
+saint_paul_*.csv
+haute_garonne_*.csv
+communes_population_categories.json
+communes_haute_garonne.geojson
+
+# Fichiers de correspondance
+correspondance-*.csv
+
+# Fichiers de métadonnées
+fichier-metadonnees-*.docx
+
+# Logs et fichiers temporaires
+*.log
+*.tmp
+*.temp
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Serveur local (optionnel)
+serve_local.py

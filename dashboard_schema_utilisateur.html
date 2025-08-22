@@ -2276,8 +2276,9 @@
             const scaleRatio = maxValue > 0 && minValue > 0 ? maxValue / minValue : 1;
             
             // Préparer les datasets
+            const communeRefName = communesNames[currentFilters.communeRef] || `Commune ${currentFilters.communeRef}`;
             const datasets = [{
-                label: 'Saint-Paul-sur-Save',
+                label: communeRefName,
                 data: filteredSaintPaulData,
                 backgroundColor: '#667eea',
                 borderColor: '#5a6fd8',
@@ -3033,6 +3034,14 @@
                           canvasId === 'distributionChartSimilar' ? 'similar' : 'comparison';
             document.getElementById(statId + '-total').textContent = totalInfractions.toLocaleString();
             document.getElementById(statId + '-rate').textContent = taux + '‰';
+            
+            // Mettre à jour le titre du graphique
+            if (canvasId === 'distributionChartSaintPaul') {
+                const titleElement = document.querySelector('.chart-title');
+                if (titleElement) {
+                    titleElement.textContent = communeName;
+                }
+            }
             
             new Chart(ctx, {
                 type: 'doughnut',

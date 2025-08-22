@@ -768,7 +768,9 @@
         
         // Sélectionner une commune
         function selectCommune(communeCode) {
+            console.log('🔍 DEBUG: Sélection commune de référence:', communeCode);
             currentFilters.communeRef = communeCode;
+            console.log('🔍 DEBUG: currentFilters.communeRef après mise à jour:', currentFilters.communeRef);
             closeCommuneDropdown();
             updateCommuneBadge();
             updateDashboard();
@@ -1155,6 +1157,7 @@
         
         // Mise à jour du tableau de bord
         function updateDashboard() {
+            console.log('🔍 DEBUG: updateDashboard appelée avec communeRef:', currentFilters.communeRef);
             updateKPIs();
             updateCommuneBadge();
             updateComparisonBadge();
@@ -1504,7 +1507,8 @@
         
         // Mise à jour des KPIs
         function updateKPIs() {
-            // Obtenir les données de Saint-Paul avec les filtres appliqués
+            console.log('🔍 DEBUG: updateKPIs appelée avec communeRef:', currentFilters.communeRef);
+            // Obtenir les données de la commune de référence avec les filtres appliqués
             const saintPaulTotals = getCommuneTotals(currentFilters.communeRef);
             const comparisonData = getComparisonData();
             const similarData = getSimilarCommunesAverage();

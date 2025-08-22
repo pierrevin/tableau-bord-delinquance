@@ -741,7 +741,7 @@
                 option.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Clic sur option:', code, name);
+                    console.log('Clic sur option de référence:', code, name);
                     selectCommune(code);
                 });
                 
@@ -867,9 +867,14 @@
             
             // Toutes les communes (avec données filtrées)
             const communesWithData = getCommunesWithInfractions();
+            console.log('Communes pour comparaison:', communesWithData.length);
+            
             communesWithData.forEach(([code, name, population, infractions]) => {
                 // Ne pas inclure la commune de référence
-                if (code === currentFilters.communeRef) return;
+                if (code === currentFilters.communeRef) {
+                    console.log('Exclusion de la commune de référence:', code, name);
+                    return;
+                }
                 
                 const option = document.createElement('div');
                 option.className = `dropdown-option ${code === currentComparison ? 'selected' : ''}`;
@@ -880,7 +885,10 @@
                     <div class="dropdown-option-details">${population.toLocaleString()} hab. • ${infractions} infractions</div>
                 `;
                 
-                option.addEventListener('click', () => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Clic sur option de comparaison:', code, name);
                     selectComparisonCommune(code);
                 });
                 
@@ -910,6 +918,7 @@
         
         // Sélectionner une commune de comparaison
         function selectComparisonCommune(communeCode) {
+            console.log('Sélection de la commune de comparaison:', communeCode);
             currentFilters.communeComp = communeCode;
             closeComparisonDropdown();
             updateComparisonBadge();

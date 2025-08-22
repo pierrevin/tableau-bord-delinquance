@@ -8,6 +8,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
     
@@ -34,7 +37,12 @@
         <!-- Navigation par onglets avec titre -->
         <div class="card">
             <div class="card-header">
-                <div class="card-title">📊 Tableau de Bord - Délinquance Haute-Garonne</div>
+                <div class="card-title">📊 Délinquance en Haute-Garonne : comparez votre commune</div>
+                <div class="card-subtitle">
+                    <p class="text-muted mb-0">
+                        Ce comparateur vous permet d'analyser les données de délinquance de votre commune par rapport à des communes similaires (même taille de population) et de comparer avec d'autres communes de votre choix. Les données proviennent des statistiques officielles de la police et de la gendarmerie nationales.
+                    </p>
+                </div>
                 <ul class="nav nav-tabs" id="mainTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="true">
@@ -190,7 +198,14 @@
         <!-- 2. KPIS SYNTHÉTIQUES -->
         <div class="card">
             <div class="card-header">
-                <div class="card-title">📈 Indicateurs Clés</div>
+                <div class="card-title">
+                    📈 Indicateurs Clés
+                    <button class="btn btn-sm btn-outline-secondary ml-2" id="kpis-info" title="Voir la liste des communes similaires" style="opacity: 0.7; font-size: 0.8em;">
+                        <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div class="kpis-grid">
                 <div class="kpi-card reference">
@@ -244,7 +259,14 @@
                 
                 <!-- Communes similaires -->
                 <div class="distribution-chart-item">
-                    <div class="chart-title">Moyenne Communes Similaires</div>
+                    <div class="chart-title">
+                        Moyenne Communes Similaires
+                        <button class="btn btn-sm btn-outline-info ml-2" id="similar-communes-info" title="Voir la liste des communes similaires">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="chart-wrapper">
                         <canvas id="distributionChartSimilar"></canvas>
                     </div>
@@ -1315,13 +1337,13 @@
         
         // Obtenir les codes des communes similaires
         function getSimilarCommunesCodes() {
-            // Calculer la population moyenne de Saint-Paul sur la période sélectionnée
-            const saintPaulData = dashboardData.commune_annee_data.filter(item => 
-                item.code_insee === '31507' && 
+            // Calculer la population moyenne de la commune de référence sur la période sélectionnée
+            const communeRefData = dashboardData.commune_annee_data.filter(item => 
+                item.code_insee === currentFilters.communeRef && 
                 currentFilters.selectedYears.includes(parseInt(item.annee))
             );
-            const saintPaulAvgPopulation = saintPaulData.length > 0 ? 
-                saintPaulData.reduce((sum, item) => sum + item.population, 0) / saintPaulData.length : 0;
+            const communeRefAvgPopulation = communeRefData.length > 0 ? 
+                communeRefData.reduce((sum, item) => sum + item.population, 0) / communeRefData.length : 0;
             
             // Trouver toutes les communes avec une population similaire (±30%) sur la période sélectionnée
             const allCommunes = {};
@@ -1344,12 +1366,12 @@
                 }
             });
             
-            // Trouver les communes similaires (±30% de la population de Saint-Paul)
+            // Trouver les communes similaires (±30% de la population de la commune de référence)
             const tolerance = 0.3; // 30%
             const similarCodes = Object.keys(communeAvgPopulations).filter(code => {
-                if (code === '31507') return false; // Exclure Saint-Paul
+                if (code === currentFilters.communeRef) return false; // Exclure la commune de référence
                 const avgPop = communeAvgPopulations[code];
-                return Math.abs(avgPop - saintPaulAvgPopulation) / saintPaulAvgPopulation <= tolerance;
+                return Math.abs(avgPop - communeRefAvgPopulation) / communeRefAvgPopulation <= tolerance;
             });
             
             return similarCodes;
@@ -4110,6 +4132,52 @@
             link.click();
         }
         
+        // Fonction pour ouvrir la modal des communes similaires
+        function openSimilarCommunesModal() {
+            const modal = new bootstrap.Modal(document.getElementById('similarCommunesModal'));
+            
+            // Mettre à jour les informations de la modal
+            const communeRefName = communesNames[currentFilters.communeRef] || `Commune ${currentFilters.communeRef}`;
+            document.getElementById('modal-commune-ref').textContent = communeRefName;
+            document.getElementById('modal-period').textContent = currentFilters.period;
+            
+            // Récupérer les communes similaires
+            const similarCodes = getSimilarCommunesCodes();
+            const tableBody = document.getElementById('similar-communes-table');
+            tableBody.innerHTML = '';
+            
+            // Récupérer les données de population de référence
+            const communeRefData = getCommuneTotals(currentFilters.communeRef);
+            const refPopulation = communeRefData ? communeRefData.population : 0;
+            
+            // Remplir le tableau
+            similarCodes.forEach(code => {
+                const communeName = communesNames[code] || `Commune ${code}`;
+                const communeData = getCommuneTotals(code);
+                
+                if (communeData) {
+                    const row = document.createElement('tr');
+                    const taux = (communeData.total_infractions / communeData.population * 1000).toFixed(2);
+                    
+                    row.innerHTML = `
+                        <td><strong>${communeName}</strong></td>
+                        <td><code>${code}</code></td>
+                        <td>${communeData.population.toLocaleString()} hab.</td>
+                        <td>${communeData.total_infractions.toLocaleString()}</td>
+                        <td>${taux}‰</td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                }
+            });
+            
+            // Mettre à jour le compteur
+            document.getElementById('modal-communes-count').textContent = similarCodes.length;
+            
+            // Ouvrir la modal
+            modal.show();
+        }
+        
         // Configuration des event listeners
         function setupEventListeners() {
             // Event listener pour le type d'infraction
@@ -4120,10 +4188,71 @@
                     updateDashboard();
                 });
             }
+            
+            // Event listener pour le bouton d'information des communes similaires
+            const similarCommunesInfoBtn = document.getElementById('similar-communes-info');
+            if (similarCommunesInfoBtn) {
+                similarCommunesInfoBtn.addEventListener('click', openSimilarCommunesModal);
+            }
+            
+            // Event listener pour le bouton d'information des KPIs
+            const kpisInfoBtn = document.getElementById('kpis-info');
+            if (kpisInfoBtn) {
+                kpisInfoBtn.addEventListener('click', openSimilarCommunesModal);
+            }
         }
         
         // Initialisation au chargement
         window.addEventListener('DOMContentLoaded', loadData);
     </script>
+    
+    <!-- Modal pour les communes similaires -->
+    <div class="modal fade" id="similarCommunesModal" tabindex="-1" aria-labelledby="similarCommunesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="similarCommunesModalLabel">Communes Similaires</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <h6>Critères de sélection :</h6>
+                        <p class="text-muted mb-2">
+                            <strong>Population :</strong> Communes avec une population similaire à <span id="modal-commune-ref">Saint-Paul-sur-Save</span> (±30%)
+                        </p>
+                        <p class="text-muted mb-3">
+                            <strong>Période :</strong> <span id="modal-period">2020-2024</span>
+                        </p>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Commune</th>
+                                    <th>Code INSEE</th>
+                                    <th>Population</th>
+                                    <th>Infractions</th>
+                                    <th>Taux/1000</th>
+                                </tr>
+                            </thead>
+                            <tbody id="similar-communes-table">
+                                <!-- Les données seront injectées ici -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <p class="text-muted">
+                            <strong>Total :</strong> <span id="modal-communes-count">0</span> communes similaires
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

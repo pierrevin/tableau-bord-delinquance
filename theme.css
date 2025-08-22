@@ -204,10 +204,21 @@ body:not(.dashboard-page) .header-controls {
   color: var(--text-primary);
   font-size: var(--font-size-xl);
   font-weight: 600;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+}
+
+.card-subtitle {
+  margin-bottom: var(--spacing-md);
+}
+
+.card-subtitle p {
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 800px;
 }
 
 .controls-grid {
@@ -1005,6 +1016,10 @@ body:not(.dashboard-page) .header-controls {
   background: var(--bg-tertiary);
   border-radius: var(--radius-sm);
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
 }
 
 .distribution-chart-item .chart-wrapper {
@@ -1218,5 +1233,142 @@ body:not(.dashboard-page) .header-controls {
     width: 100%;
     max-width: 300px;
     justify-content: center;
+  }
+}
+
+/* ===== BOUTON D'INFORMATION COMMUNES SIMILAIRES ===== */
+.chart-title .btn-outline-info {
+  border: 2px solid var(--accent-primary) !important;
+  background: var(--bg-primary) !important;
+  color: var(--accent-primary) !important;
+  padding: 6px 10px !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--transition-fast) !important;
+  font-size: var(--font-size-sm) !important;
+  margin-left: var(--spacing-sm) !important;
+  cursor: pointer !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: var(--shadow-sm) !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.chart-title .btn-outline-info:hover {
+  background: var(--accent-primary) !important;
+  color: var(--text-inverse) !important;
+  transform: scale(1.1) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.chart-title .btn-outline-info:focus {
+  box-shadow: 0 0 0 3px var(--accent-primary) !important;
+  outline: none !important;
+}
+
+.chart-title .btn-outline-info svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: currentColor !important;
+}
+
+/* ===== BOUTON D'INFORMATION DISCRET POUR KPIS ===== */
+.card-title .btn-outline-secondary {
+  border: 1px solid var(--text-muted) !important;
+  background: transparent !important;
+  color: var(--text-muted) !important;
+  padding: 2px 6px !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--transition-fast) !important;
+  font-size: var(--font-size-xs) !important;
+  margin-left: var(--spacing-sm) !important;
+  cursor: pointer !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 0.7 !important;
+}
+
+.card-title .btn-outline-secondary:hover {
+  background: var(--text-muted) !important;
+  color: var(--text-inverse) !important;
+  opacity: 1 !important;
+  transform: scale(1.05) !important;
+}
+
+.card-title .btn-outline-secondary svg {
+  width: 12px !important;
+  height: 12px !important;
+  fill: currentColor !important;
+}
+
+/* ===== MODAL COMMUNES SIMILAIRES ===== */
+#similarCommunesModal .modal-content {
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-xl);
+}
+
+#similarCommunesModal .modal-header {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: var(--text-inverse);
+  border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+#similarCommunesModal .modal-title {
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+}
+
+#similarCommunesModal .modal-body {
+  padding: var(--spacing-lg);
+}
+
+#similarCommunesModal .table {
+  margin-bottom: 0;
+}
+
+#similarCommunesModal .table thead th {
+  background: var(--bg-tertiary);
+  border-bottom: 2px solid var(--border-medium);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+}
+
+#similarCommunesModal .table tbody td {
+  vertical-align: middle;
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid var(--border-light);
+}
+
+#similarCommunesModal .table tbody tr:hover {
+  background: var(--bg-secondary);
+}
+
+#similarCommunesModal .modal-footer {
+  border-top: 1px solid var(--border-light);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+/* Responsive pour la modal */
+@media (max-width: 768px) {
+  #similarCommunesModal .modal-dialog {
+    margin: var(--spacing-sm);
+  }
+  
+  #similarCommunesModal .table-responsive {
+    font-size: var(--font-size-xs);
+  }
+  
+  #similarCommunesModal .table th,
+  #similarCommunesModal .table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
   }
 }
